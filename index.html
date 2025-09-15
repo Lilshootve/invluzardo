@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ============ META ============ -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INVERSIONES LUZARDO LLC — Premium Cleaning & Maintenance</title>
+  <meta name="description" content="Premium corporate and luxury residential cleaning & maintenance in Miami. Trusted standards, trained staff, eco-friendly options." />
+  <meta name="theme-color" content="#0A3D62" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="INVERSIONES LUZARDO LLC — Premium Cleaning & Maintenance" />
+  <meta property="og:description" content="Where Clean Meets Class. Office cleaning plans, deep cleaning, floor care, luxury residential care." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+
+  <!-- Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#0A3D62;      /* Primary */
+      --steel:#7B8A8B;     /* Secondary */
+      --light:#D9E3E6;     /* UI */
+      --dark:#222833;      /* Text */
+      --muted:#5b6776;     /* Muted text */
+      --white:#ffffff;
+      --bg:#f7f9fb;
+      --shadow:0 10px 30px rgba(10,61,98,.10);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--dark);
+      background:var(--bg);
+      line-height:1.45;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(120%) blur(6px);
+      background:rgba(255,255,255,.86);
+      border-bottom:1px solid var(--light);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;height:76px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:42px;width:auto;display:block}
+    .brand .name{font-weight:800;color:var(--navy);letter-spacing:.3px}
+    .navlinks{display:flex;gap:16px;align-items:center}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:12px 16px;border-radius:12px;border:1px solid transparent;
+      font-weight:700;transition:.18s ease box-shadow, .18s ease transform, .18s ease background-color;
+      cursor:pointer;white-space:nowrap;
+    }
+    .btn.ghost{border-color:var(--light);background:var(--white);color:var(--navy)}
+    .btn.ghost:hover{background:#f2f6f8}
+    .btn.primary{background:var(--navy);color:var(--white)}
+    .btn.primary:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+
+    /* Hero */
+    .hero{padding:80px 0;background:linear-gradient(180deg,#ffffff 0%,#f2f7fb 100%)}
+    .hero-grid{
+      display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+    }
+    .eyebrow{
+      color:var(--steel);font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:.82rem
+    }
+    h1{font-size:52px;line-height:1.06;margin:10px 0 14px;color:#17364c}
+    .subtitle{font-size:18px;color:var(--muted);margin:0 0 22px}
+    .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 0}
+    .badge{
+      border:1px solid var(--light);border-radius:999px;padding:8px 12px;background:#fff;color:#3f5162;font-weight:600;font-size:12px
+    }
+    .hero-card{
+      background:#fff;border:1px solid var(--light);border-radius:20px;padding:22px;box-shadow:var(--shadow)
+    }
+    .hero-card h3{margin:0 0 8px;color:var(--navy)}
+    .hero-input{
+      width:100%;padding:12px 14px;border:1px solid var(--light);border-radius:12px;background:#fff;color:var(--dark)
+    }
+    .hero-form{display:grid;gap:12px;margin-top:12px}
+
+    /* Sections */
+    section{padding:64px 0}
+    h2{font-size:34px;margin:0 0 8px;color:#163149}
+    .section-sub{color:var(--steel);margin:0 0 18px}
+
+    .grid{display:grid;gap:18px}
+    .cols-3{grid-template-columns:repeat(3,1fr)}
+    .card{
+      background:#fff;border:1px solid var(--light);border-radius:18px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.02)
+    }
+    .card h3{margin:0 0 6px;color:var(--navy)}
+    .muted{color:var(--muted)}
+
+    /* Pricing */
+    .pricing{background:#fff;border:1px solid var(--light);border-radius:22px;padding:26px;box-shadow:var(--shadow)}
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .plan{
+      border:1px solid var(--light);border-radius:18px;background:#fbfdff;padding:22px;display:flex;flex-direction:column;gap:8px
+    }
+    .plan h3{margin:0;color:#0b3a5b}
+    .price{font-size:28px;font-weight:800;color:#0b3a5b}
+    .feature{display:flex;gap:10px;align-items:flex-start}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--navy);margin-top:9px}
+    .plan .btn{margin-top:auto}
+
+    /* CTA */
+    .cta{
+      background:linear-gradient(180deg,#0A3D62 0%,#0e527f 100%);color:#eaf2f9;border-radius:22px;padding:32px;display:flex;align-items:center;justify-content:space-between;gap:18px
+    }
+    .cta h3{margin:0;font-size:26px}
+    .cta p{margin:6px 0 0}
+    .cta .btn{background:#fff;color:var(--navy)}
+
+    /* Footer */
+    footer{padding:44px 0;background:#0f2230;color:#c9d7e2;margin-top:64px}
+    .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .small{font-size:13px;color:#a9b6c3}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .cols-3{grid-template-columns:1fr}
+      .plans{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr}
+      h1{font-size:40px}
+    }
+  </style>
+</head>
+<body>
+  <!-- ============ HEADER ============ -->
+  <header role="banner" aria-label="Primary">
+    <div class="container nav">
+      <div class="brand">
+        <!-- Replace with your logo path -->
+        <img src="assets/logo.png" alt="Inversiones Luzardo logo" />
+        <div class="name" aria-label="Brand name">INVERSIONES LUZARDO</div>
+      </div>
+      <nav class="navlinks" aria-label="Main navigation">
+        <a class="btn ghost" href="#services">Services</a>
+        <a class="btn ghost" href="#pricing">Pricing</a>
+        <a class="btn primary" href="#quote">Request a Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Premium Cleaning • Corporate & Luxury</div>
+        <h1>Where Clean Meets Class</h1>
+        <p class="subtitle">
+          We deliver hassle-free maintenance for modern offices and high-end residences.
+          Trusted standards, trained staff, eco-friendly options.
+        </p>
+        <div class="badge-row" aria-label="Highlights">
+          <span class="badge">Licensed & Insured</span>
+          <span class="badge">24/7 Emergency</span>
+          <span class="badge">Supervisor Included (Platinum)</span>
+          <span class="badge">Eco-Friendly Options</span>
+        </div>
+        <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn primary" href="#pricing" aria-label="View plans and pricing">See Plans</a>
+          <a class="btn ghost" href="#services" aria-label="Explore services">Explore Services</a>
+        </div>
+      </div>
+
+      <!-- Quick Quote card -->
+      <aside class="hero-card" aria-labelledby="fast-quote">
+        <h3 id="fast-quote">Fast Quote</h3>
+        <p class="muted">Tell us about your facility. We’ll tailor a premium plan.</p>
+        <form id="quote" class="hero-form" onsubmit="event.preventDefault(); alert('Thanks! We will contact you shortly.');">
+          <label class="sr-only" for="q-name">Company / Name</label>
+          <input id="q-name" class="hero-input" placeholder="Company / Name" required />
+
+          <label class="sr-only" for="q-email">Email</label>
+          <input id="q-email" type="email" class="hero-input" placeholder="Email" required />
+
+          <label class="sr-only" for="q-size">Facility size (sq.ft.)</label>
+          <input id="q-size" class="hero-input" placeholder="Facility size (sq.ft.)" inputmode="numeric" />
+
+          <label class="sr-only" for="q-frequency">Cleaning Frequency</label>
+          <select id="q-frequency" class="hero-input" aria-label="Cleaning Frequency">
+            <option value="">Cleaning Frequency</option>
+            <option>3x per week</option>
+            <option>5x per week</option>
+            <option>Daily</option>
+          </select>
+
+          <button class="btn primary" type="submit">Request a Quote</button>
+        </form>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" aria-labelledby="services-title">
+    <div class="container">
+      <h2 id="services-title">Our Services</h2>
+      <p class="section-sub">Corporate cleaning plans, deep cleaning, floor care and luxury residential maintenance.</p>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Office Cleaning Plans</h3>
+          <p class="muted">Silver, Gold & Platinum. Schedules to match your operation with consistent quality standards.</p>
+        </div>
+        <div class="card">
+          <h3>Deep Cleaning & Sanitization</h3>
+          <p class="muted">Full office reset, sanitization & disinfection protocols for healthier environments.</p>
+        </div>
+        <div class="card">
+          <h3>Floor Care</h3>
+          <p class="muted">Marble/tile polishing, carpet deep cleaning, wood treatments with premium finishes.</p>
+        </div>
+        <div class="card">
+          <h3>Luxury Residential Care</h3>
+          <p class="muted">Discreet, high-standard apartment & estate care for VIP clients.</p>
+        </div>
+        <div class="card">
+          <h3>Post-Construction</h3>
+          <p class="muted">Detail-oriented cleanup for renovations or new builds, on tight timelines.</p>
+        </div>
+        <div class="card">
+          <h3>Event Cleaning</h3>
+          <p class="muted">Before & after events; 24/7 emergency response coverage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section id="pricing" aria-labelledby="pricing-title">
+    <div class="container">
+      <h2 id="pricing-title">Plans & Pricing</h2>
+      <p class="section-sub">Transparent premium pricing. Final quotes tailored to your facility and frequency.</p>
+
+      <div class="pricing" role="region" aria-label="Plans">
+        <div class="plans">
+          <!-- Silver -->
+          <div class="plan">
+            <h3>Silver</h3>
+            <div class="price">$1,200 / month</div>
+            <div class="feature"><span class="dot"></span><div>3 visits per week</div></div>
+            <div class="feature"><span class="dot"></span><div>Basic office cleaning</div></div>
+            <button class="btn primary" onclick="scrollToQuote('Silver')">Choose Silver</button>
+          </div>
+
+          <!-- Gold -->
+          <div class="plan" style="background:#ffffff">
+            <h3>Gold</h3>
+            <div class="price">$2,200 / month</div>
+            <div class="feature"><span class="dot"></span><div>5 visits per week</div></div>
+            <div class="feature"><span class="dot"></span><div>Full maintenance</div></div>
+            <div class="feature"><span class="dot"></span><div>Restocking essentials</div></div>
+            <button class="btn primary" onclick="scrollToQuote('Gold')">Choose Gold</button>
+          </div>
+
+          <!-- Platinum -->
+          <div class="plan" style="background:#f7fbff;border-color:#0A3D62">
+            <h3>Platinum</h3>
+            <div class="price">$3,500 / month</div>
+            <div class="feature"><span class="dot"></span><div>Daily cleaning</div></div>
+            <div class="feature"><span class="dot"></span><div>Floor care monthly</div></div>
+            <div class="feature"><span class="dot"></span><div>Supervisor included</div></div>
+            <button class="btn primary" onclick="scrollToQuote('Platinum')">Choose Platinum</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extra pricing cards -->
+      <div class="grid cols-3" style="margin-top:22px">
+        <div class="card">
+          <h3>Deep Cleaning & Sanitization</h3>
+          <p class="muted">
+            Deep Cleaning — from $0.45 / sq.ft.<br />
+            Sanitization & Disinfection — from $350 (up to 2,500 sq.ft.)<br />
+            Full Office Reset (weekend) — from $1,500
+          </p>
+        </div>
+        <div class="card">
+          <h3>Floor Care Services</h3>
+          <p class="muted">
+            Marble / Tile — $2.50–$4.00 / sq.ft.<br />
+            Carpet — $0.35–$0.55 / sq.ft.<br />
+            Wood — $2.00–$3.00 / sq.ft.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Specialized / On-Demand</h3>
+          <p class="muted">
+            Post-Construction — $0.60–$1.00 / sq.ft.<br />
+            Event Cleaning — from $1,200 per event<br />
+            Emergency 24/7 — from $800 per call
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section aria-label="Final call to action">
+    <div class="container">
+      <div class="cta">
+        <div>
+          <h3>Ready for a spotless, stress-free space?</h3>
+          <p>Premium standards. Clear pricing. Zero headaches.</p>
+        </div>
+        <a class="btn" href="#quote">Request a Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer role="contentinfo">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand" style="gap:10px;margin-bottom:8px">
+          <img src="assets/logo.png" alt="Inversiones Luzardo" style="height:38px" />
+          <div class="name" style="color:#e8f0f7;font-weight:800">INVERSIONES LUZARDO</div>
+        </div>
+        <div class="small">Where Clean Meets Class</div>
+      </div>
+      <div>
+        <div class="small">
+          Email: contact@inversionesluzardo.com<br />
+          Phone: +1 (305) 123-4567<br />
+          Miami, FL
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Accessible helper for buttons in pricing
+    function scrollToQuote(plan){
+      const form = document.getElementById('quote');
+      if(form){ 
+        form.scrollIntoView({behavior:'smooth'});
+        setTimeout(()=>{ 
+          const name = document.getElementById('q-name');
+          if(name) name.focus();
+        }, 500);
+      }
+    }
+    // Basic smooth-scroll for anchor links (in-page)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+      })
+    })
+  </script>
+</body>
+</html>
