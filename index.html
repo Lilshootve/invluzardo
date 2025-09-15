@@ -49,10 +49,10 @@
       border-bottom:1px solid var(--light);
     }
     .nav{
-      display:flex;align-items:center;justify-content:space-between;min-height:120px;padding:12px 0;
+      display:flex;align-items:center;justify-content:space-between;min-height:110px;padding:12px 0;
     }
     .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:96px;width:auto;display:block}
+    .brand img{height:84px;width:auto;display:block}
     .brand .name{font-weight:800;color:var(--navy);letter-spacing:.3px}
     .navlinks{display:flex;gap:16px;align-items:center}
     .btn{
@@ -124,7 +124,11 @@
 
     /* Footer */
     footer{padding:44px 0;background:#0f2230;color:#c9d7e2;margin-top:64px}
-    .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:24px}
+    .footer-col h4{margin:0 0 10px;color:#eaf2f9;font-size:16px}
+    .footer-links a{display:block;color:#a9b6c3;padding:4px 0}
+    .footer-links a:hover{color:#eaf2f9}
+    .footer-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}
     .small{font-size:13px;color:#a9b6c3}
 
     /* Responsive */
@@ -134,8 +138,9 @@
       .plans{grid-template-columns:1fr}
       .footer-grid{grid-template-columns:1fr}
       h1{font-size:40px}
-      .brand img{height:64px}
-      .nav{min-height:90px}
+      .brand img{height:56px}
+      .nav{min-height:88px}
+      .footer-bottom{flex-direction:column;gap:8px;align-items:flex-start}
     }
   </style>
 </head>
@@ -324,20 +329,48 @@
 
   <!-- ============ FOOTER ============ -->
   <footer role="contentinfo">
-    <div class="container footer-grid">
-      <div>
-        <div class="brand" style="gap:10px;margin-bottom:8px">
-          <img src="assets/logo.png" alt="Inversiones Luzardo" style="height:96px" />
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="gap:10px;margin-bottom:8px">
+            <img src="assets/logo.png" alt="Inversiones Luzardo" style="height:84px" />
+          </div>
+          <div class="small">Where Clean Meets Class</div>
         </div>
-        <div class="small">Where Clean Meets Class</div>
+
+        <div class="footer-col">
+          <h4>Servicios</h4>
+          <div class="footer-links">
+            <a href="#services">Planes de Oficina</a>
+            <a href="#services">Limpieza Profunda</a>
+            <a href="#services">Cuidado de Pisos</a>
+            <a href="#services">Residencial Premium</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Compañía</h4>
+          <div class="footer-links">
+            <a href="#pricing">Precios</a>
+            <a href="#quote">Solicitar Cotización</a>
+            <a href="#home">Acerca</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <div class="small">
+            Phone: +1 (813) 917-2134<br />
+            Email: info@invluzardo.com<br />
+            4615 CYNTHIA LN<br />
+            SPRING HILL, FL 34606
+          </div>
+        </div>
       </div>
-      <div>
-        <div class="small">
-          Phone: +1 (813) 917-2134<br />
-          Email: info@invluzardo.com<br />
-          4615 CYNTHIA LN<br />
-          SPRING HILL, FL 34606
-        </div>
+
+      <div class="footer-bottom">
+        <div class="small">© <span id="year"></span> INVERSIONES LUZARDO LLC. All rights reserved.</div>
+        <div class="small"><a href="#quote" style="color:#a9b6c3">Request a Quote</a></div>
       </div>
     </div>
   </footer>
@@ -362,6 +395,9 @@
         if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
       })
     })
+    // Year in footer
+    const y = document.getElementById('year');
+    if(y){ y.textContent = new Date().getFullYear(); }
   </script>
 </body>
 </html>
