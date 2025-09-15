@@ -67,7 +67,17 @@
     .btn.primary:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
 
     /* Hero */
-    .hero{padding:96px 0;background:linear-gradient(180deg,#ffffff 0%,#f2f7fb 100%)}
+    .hero{
+      position:relative;padding:96px 0;background:linear-gradient(180deg,#ffffff 0%,#f2f7fb 100%);
+      overflow:hidden;
+    }
+    .hero-video{
+      position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;
+      opacity:0.3;
+    }
+    .hero-content{
+      position:relative;z-index:2;
+    }
     .hero-grid{
       display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
     }
@@ -162,7 +172,10 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="home">
-    <div class="container hero-grid">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="assets/cleaning1.mp4" type="video/mp4">
+    </video>
+    <div class="container hero-grid hero-content">
       <div>
         <div class="eyebrow">Premium Cleaning • Corporate & Luxury</div>
         <h1>Where Clean Meets Class</h1>
@@ -207,6 +220,7 @@
           <button class="btn primary" type="submit">Request a Quote</button>
         </form>
       </aside>
+    </div>
     </div>
   </section>
 
