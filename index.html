@@ -49,10 +49,10 @@
       border-bottom:1px solid var(--light);
     }
     .nav{
-      display:flex;align-items:center;justify-content:space-between;height:76px;
+      display:flex;align-items:center;justify-content:space-between;min-height:140px;padding:12px 0;
     }
     .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:42px;width:auto;display:block}
+    .brand img{height:126px;width:auto;display:block}
     .brand .name{font-weight:800;color:var(--navy);letter-spacing:.3px}
     .navlinks{display:flex;gap:16px;align-items:center}
     .btn{
@@ -67,7 +67,7 @@
     .btn.primary:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
 
     /* Hero */
-    .hero{padding:80px 0;background:linear-gradient(180deg,#ffffff 0%,#f2f7fb 100%)}
+    .hero{padding:96px 0;background:linear-gradient(180deg,#ffffff 0%,#f2f7fb 100%)}
     .hero-grid{
       display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
     }
@@ -90,20 +90,20 @@
     .hero-form{display:grid;gap:12px;margin-top:12px}
 
     /* Sections */
-    section{padding:64px 0}
+    section{padding:64px 0; scroll-margin-top:160px}
     h2{font-size:34px;margin:0 0 8px;color:#163149}
     .section-sub{color:var(--steel);margin:0 0 18px}
 
-    .grid{display:grid;gap:18px}
+    .grid{display:grid;gap:20px}
     .cols-3{grid-template-columns:repeat(3,1fr)}
     .card{
-      background:#fff;border:1px solid var(--light);border-radius:18px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.02)
+      background:#fff;border:1px solid var(--light);border-radius:18px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.02)
     }
     .card h3{margin:0 0 6px;color:var(--navy)}
     .muted{color:var(--muted)}
 
     /* Pricing */
-    .pricing{background:#fff;border:1px solid var(--light);border-radius:22px;padding:26px;box-shadow:var(--shadow)}
+    .pricing{background:#fff;border:1px solid var(--light);border-radius:22px;padding:28px;box-shadow:var(--shadow)}
     .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .plan{
       border:1px solid var(--light);border-radius:18px;background:#fbfdff;padding:22px;display:flex;flex-direction:column;gap:8px
@@ -116,7 +116,7 @@
 
     /* CTA */
     .cta{
-      background:linear-gradient(180deg,#0A3D62 0%,#0e527f 100%);color:#eaf2f9;border-radius:22px;padding:32px;display:flex;align-items:center;justify-content:space-between;gap:18px
+      background:linear-gradient(180deg,#0A3D62 0%,#0e527f 100%);color:#eaf2f9;border-radius:22px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:20px
     }
     .cta h3{margin:0;font-size:26px}
     .cta p{margin:6px 0 0}
@@ -134,6 +134,8 @@
       .plans{grid-template-columns:1fr}
       .footer-grid{grid-template-columns:1fr}
       h1{font-size:40px}
+      .brand img{height:84px}
+      .nav{min-height:100px}
     }
   </style>
 </head>
@@ -326,16 +328,17 @@
     <div class="container footer-grid">
       <div>
         <div class="brand" style="gap:10px;margin-bottom:8px">
-          <img src="assets/logo.png" alt="Inversiones Luzardo" style="height:38px" />
+          <img src="assets/logo.png" alt="Inversiones Luzardo" style="height:114px" />
           <div class="name" style="color:#e8f0f7;font-weight:800">INVERSIONES LUZARDO</div>
         </div>
         <div class="small">Where Clean Meets Class</div>
       </div>
       <div>
         <div class="small">
-          Email: contact@inversionesluzardo.com<br />
-          Phone: +1 (305) 123-4567<br />
-          Miami, FL
+          Phone: +1 (813) 917-2134<br />
+          Email: info@invluzardo.com<br />
+          4615 CYNTHIA LN<br />
+          SPRING HILL, FL 34606
         </div>
       </div>
     </div>
