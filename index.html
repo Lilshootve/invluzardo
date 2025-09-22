@@ -61,6 +61,7 @@
       font-weight:700;transition:.18s ease box-shadow, .18s ease transform, .18s ease background-color;
       cursor:pointer;white-space:nowrap;min-height:44px;font-size:16px;
       -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+      position:relative;overflow:hidden;
     }
     .btn.ghost{border-color:var(--light);background:var(--white);color:var(--navy)}
     .btn.ghost:hover{background:#f2f6f8}
@@ -76,9 +77,7 @@
       position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;
       opacity:0.3;
     }
-    .foam-canvas{
-      position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;
-    }
+    .btn-foam-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
     .hero-content{
       position:relative;z-index:2;
     }
@@ -221,7 +220,6 @@
     <video class="hero-video" autoplay muted loop playsinline>
       <source src="assets/cleaning1.mp4" type="video/mp4">
     </video>
-    <canvas id="foam" class="foam-canvas" aria-hidden="true"></canvas>
     <div class="container hero-grid hero-content">
       <div>
         <div class="eyebrow">Premium Cleaning • Corporate & Luxury</div>
@@ -460,139 +458,99 @@
     const y = document.getElementById('year');
     if(y){ y.textContent = new Date().getFullYear(); }
 
-    // Foam/bubbles effect over hero
+    // Burbujas dentro de los botones (no en el hero)
     (function(){
-      const canvas = document.getElementById('foam');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
-      let bubbles = [];
-      let rafId = null;
-      let running = true;
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const map = new WeakMap();
 
-      function resize(){
-        const rect = canvas.getBoundingClientRect();
-        width = Math.floor(rect.width);
-        height = Math.floor(rect.height);
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
+      function createController(btn){
+        const canvas = document.createElement('canvas');
+        canvas.className = 'btn-foam-canvas';
+        canvas.setAttribute('aria-hidden','true');
+        btn.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let bubbles = [];
+        let rafId = null;
+        let running = false;
+        let last = performance.now();
 
-      function spawnBubble(){
-        const radius = 4 + Math.random() * 14; // 4–18px
-        const x = Math.random() * width;
-        const y = height + radius + Math.random() * 60; // start slightly below view
-        const speed = 12 + Math.random() * 24; // px/s upward
-        const drift = (Math.random() * 0.6 - 0.3); // slight horizontal drift
-        const life = 5 + Math.random() * 4; // seconds
-        bubbles.push({ x, y, radius, speed, drift, life, age: 0, wobble: Math.random() * Math.PI * 2 });
-      }
+        function resize(){
+          const rect = btn.getBoundingClientRect();
+          width = Math.max(1, Math.floor(rect.width));
+          height = Math.max(1, Math.floor(rect.height));
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
 
-      function step(dt){
-        ctx.clearRect(0, 0, width, height);
-        // gentle gradient at bottom to suggest foam accumulation
-        const grad = ctx.createLinearGradient(0, height * 0.7, 0, height);
-        grad.addColorStop(0, 'rgba(255,255,255,0)');
-        grad.addColorStop(1, 'rgba(255,255,255,0.35)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, height * 0.7, width, height * 0.3);
+        function spawnBubble(){
+          const radius = 2 + Math.random() * 6; // 2–8px
+          const x = Math.random() * width;
+          const y = height + radius + Math.random() * 10;
+          const speed = 30 + Math.random() * 40; // px/s upward
+          const drift = (Math.random() * 0.8 - 0.4);
+          const life = 1.2 + Math.random() * 1.6; // seconds
+          bubbles.push({ x, y, radius, speed, drift, life, age: 0, wobble: Math.random() * Math.PI * 2 });
+        }
 
-        for(let i = bubbles.length - 1; i >= 0; i--){
-          const b = bubbles[i];
-          b.age += dt;
-          b.y -= b.speed * dt;
-          b.x += Math.sin(b.wobble + b.age * 2) * 0.4 + b.drift;
-          const fade = Math.max(0, 1 - (b.age / b.life));
-          if(b.y + b.radius < 0 || fade <= 0){
-            bubbles.splice(i, 1);
-            continue;
+        function step(dt){
+          ctx.clearRect(0, 0, width, height);
+          for(let i = bubbles.length - 1; i >= 0; i--){
+            const b = bubbles[i];
+            b.age += dt;
+            b.y -= b.speed * dt;
+            b.x += Math.sin(b.wobble + b.age * 8) * 0.5 + b.drift * dt * 30;
+            const fade = Math.max(0, 1 - (b.age / b.life));
+            if(b.y + b.radius < -2 || fade <= 0){ bubbles.splice(i, 1); continue; }
+            ctx.globalAlpha = 0.25 + 0.5 * fade;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
           }
-          ctx.globalAlpha = 0.25 + 0.55 * fade;
-          ctx.fillStyle = '#ffffff';
-          ctx.beginPath();
-          ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.globalAlpha = 1;
-          // subtle highlight
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(255,255,255,0.9)';
-          ctx.arc(b.x - b.radius * 0.4, b.y - b.radius * 0.4, b.radius * 0.35, 0, Math.PI * 2);
-          ctx.fill();
+          const target = Math.max(4, Math.floor(width / 80));
+          if(bubbles.length < target){ for(let i=0;i<target - bubbles.length;i++) spawnBubble(); }
         }
 
-        // keep a target number of bubbles proportional to width
-        const target = Math.max(12, Math.floor(width / 60));
-        if(bubbles.length < target){
-          for(let i = 0; i < target - bubbles.length; i++) spawnBubble();
+        function tick(now){
+          if(!running) return;
+          const dt = Math.min(0.033, (now - last) / 1000);
+          last = now;
+          step(dt);
+          rafId = requestAnimationFrame(tick);
         }
-      }
 
-      let last = performance.now();
-      function tick(now){
-        if(!running) return;
-        const dt = Math.min(0.033, (now - last) / 1000); // cap at ~30fps step
-        last = now;
-        step(dt);
-        rafId = requestAnimationFrame(tick);
-      }
-
-      function start(){
-        if(prefersReduced.matches){
-          canvas.style.display = 'none';
-          return;
+        function start(){
+          if(running || prefersReduced.matches) return;
+          resize();
+          running = true;
+          cancelAnimationFrame(rafId);
+          last = performance.now();
+          rafId = requestAnimationFrame(tick);
+          canvas.style.display = '';
         }
-        canvas.style.display = '';
-        running = true;
-        cancelAnimationFrame(rafId);
-        last = performance.now();
-        rafId = requestAnimationFrame(tick);
+        function stop(){ running = false; cancelAnimationFrame(rafId); canvas.style.display = 'none'; bubbles = []; }
+
+        // init
+        canvas.style.display = 'none';
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
+        document.addEventListener('visibilitychange', () => { if(document.hidden) stop(); });
+        prefersReduced.addEventListener('change', () => { if(prefersReduced.matches) stop(); });
+
+        return { start, stop, isRunning: () => running };
       }
 
-      function stop(){
-        running = false;
-        cancelAnimationFrame(rafId);
-      }
-
-      // Events
-      resize();
-      window.addEventListener('resize', resize, { passive: true });
-      document.addEventListener('visibilitychange', () => {
-        if(document.hidden) stop(); else if(running) start();
-      });
-      prefersReduced.addEventListener('change', () => {
-        if(prefersReduced.matches) { stop(); canvas.style.display = 'none'; }
-        else if(running) { canvas.style.display = ''; start(); }
-      });
-
-      // Inicialmente desactivado para rendimiento; se activará por hover/focus en botones
-      running = false;
-      canvas.style.display = 'none';
-
-      // Exponer control para eventos externos
-      window.foamControl = {
-        start,
-        stop,
-        isRunning: () => running
-      };
-    })();
-
-    // Activar efecto solo al interactuar con botones
-    (function(){
-      const ctl = window.foamControl;
-      if(!ctl) return;
-      let stopTimer = null;
-      function armStart(){
-        clearTimeout(stopTimer);
-        if(!ctl.isRunning()) ctl.start();
-      }
-      function armStop(){
-        clearTimeout(stopTimer);
-        stopTimer = setTimeout(()=>ctl.stop(), 300);
-      }
+      // Bind to buttons
       const btns = document.querySelectorAll('.btn');
-      btns.forEach(btn=>{
+      btns.forEach(btn => {
+        let ctl = null;
+        let stopTimer = null;
+        function ensure(){ if(!ctl){ ctl = createController(btn); map.set(btn, ctl); } return ctl; }
+        function armStart(){ clearTimeout(stopTimer); ensure().start(); }
+        function armStop(){ clearTimeout(stopTimer); stopTimer = setTimeout(()=>ensure().stop(), 200); }
         btn.addEventListener('mouseenter', armStart);
         btn.addEventListener('mouseleave', armStop);
         btn.addEventListener('focus', armStart);
