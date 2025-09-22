@@ -559,15 +559,47 @@
       resize();
       window.addEventListener('resize', resize, { passive: true });
       document.addEventListener('visibilitychange', () => {
-        if(document.hidden) stop(); else start();
+        if(document.hidden) stop(); else if(running) start();
       });
       prefersReduced.addEventListener('change', () => {
         if(prefersReduced.matches) { stop(); canvas.style.display = 'none'; }
-        else { canvas.style.display = ''; start(); }
+        else if(running) { canvas.style.display = ''; start(); }
       });
 
-      // kick off
-      start();
+      // Inicialmente desactivado para rendimiento; se activará por hover/focus en botones
+      running = false;
+      canvas.style.display = 'none';
+
+      // Exponer control para eventos externos
+      window.foamControl = {
+        start,
+        stop,
+        isRunning: () => running
+      };
+    })();
+
+    // Activar efecto solo al interactuar con botones
+    (function(){
+      const ctl = window.foamControl;
+      if(!ctl) return;
+      let stopTimer = null;
+      function armStart(){
+        clearTimeout(stopTimer);
+        if(!ctl.isRunning()) ctl.start();
+      }
+      function armStop(){
+        clearTimeout(stopTimer);
+        stopTimer = setTimeout(()=>ctl.stop(), 300);
+      }
+      const btns = document.querySelectorAll('.btn');
+      btns.forEach(btn=>{
+        btn.addEventListener('mouseenter', armStart);
+        btn.addEventListener('mouseleave', armStop);
+        btn.addEventListener('focus', armStart);
+        btn.addEventListener('blur', armStop);
+        btn.addEventListener('touchstart', armStart, { passive: true });
+        btn.addEventListener('touchend', armStop, { passive: true });
+      });
     })();
   </script>
 </body>
