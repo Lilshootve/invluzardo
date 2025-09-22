@@ -137,13 +137,15 @@
     .cta .btn{background:#fff;color:var(--navy)}
 
     /* Footer */
-    footer{padding:44px 0;background:#0f2230;color:#c9d7e2;margin-top:64px}
+    footer{padding:44px 0;background:#0f2230;color:#c9d7e2;margin-top:64px;position:relative}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:24px}
     .footer-col h4{margin:0 0 10px;color:#eaf2f9;font-size:16px}
     .footer-links a{display:block;color:#a9b6c3;padding:4px 0}
     .footer-links a:hover{color:#eaf2f9}
     .footer-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}
     .small{font-size:13px;color:#a9b6c3}
+    .footer-foam{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    .footer-content{position:relative;z-index:1}
 
     /* Section backgrounds (alternating) */
     .section--light{background:#ffffff}
@@ -392,7 +394,8 @@
 
   <!-- ============ FOOTER ============ -->
   <footer role="contentinfo">
-    <div class="container">
+    <canvas id="footer-foam" class="footer-foam" aria-hidden="true"></canvas>
+    <div class="container footer-content">
       <div class="footer-grid">
         <div>
           <div class="brand" style="gap:10px;margin-bottom:8px">
@@ -433,7 +436,7 @@
 
       <div class="footer-bottom">
         <div class="small">© <span id="year"></span> INVERSIONES LUZARDO LLC. All rights reserved.</div>
-        <div class="small"><a class="btn ghost" href="#quote">Request a Quote</a></div>
+        <div class="small"><a href="#quote" style="color:#a9b6c3">Request a Quote</a></div>
       </div>
     </div>
   </footer>
@@ -554,6 +557,85 @@
         map.set(btn, ctl);
         ctl.start();
       });
+    })();
+
+    // Burbujas de fondo en el footer
+    (function(){
+      const canvas = document.getElementById('footer-foam');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let rafId = null;
+      let last = performance.now();
+      const bubbles = [];
+
+      function resize(){
+        const rect = canvas.getBoundingClientRect();
+        width = Math.floor(rect.width);
+        height = Math.floor(rect.height);
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function spawn(){
+        const radius = 3 + Math.random() * 10; // 3–13px
+        const x = Math.random() * width;
+        const y = height + radius + Math.random() * 20;
+        const speed = 10 + Math.random() * 20; // slower than buttons
+        const drift = (Math.random() * 0.6 - 0.3);
+        const life = 6 + Math.random() * 6;
+        bubbles.push({ x, y, r: radius, v: speed, d: drift, a: 0, life });
+      }
+
+      function draw(dt){
+        ctx.clearRect(0, 0, width, height);
+        // soft foam band near bottom
+        const grad = ctx.createLinearGradient(0, height * 0.6, 0, height);
+        grad.addColorStop(0, 'rgba(255,255,255,0)');
+        grad.addColorStop(1, 'rgba(255,255,255,0.18)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, height * 0.6, width, height * 0.4);
+
+        for(let i=bubbles.length-1;i>=0;i--){
+          const b = bubbles[i];
+          b.a += dt;
+          b.y -= b.v * dt;
+          b.x += Math.sin(b.a * 1.5) * 0.3 + b.d * dt * 20;
+          const fade = Math.max(0, 1 - (b.a / b.life));
+          if(b.y + b.r < 0 || fade <= 0){ bubbles.splice(i,1); continue; }
+          ctx.globalAlpha = 0.18 + 0.4 * fade;
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+        const target = Math.max(20, Math.floor(width / 40));
+        while(bubbles.length < target) spawn();
+      }
+
+      function tick(now){
+        const dt = Math.min(0.033, (now - last) / 1000);
+        last = now;
+        draw(dt);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function start(){
+        if(prefersReduced.matches) { canvas.style.display='none'; return; }
+        canvas.style.display='';
+        cancelAnimationFrame(rafId);
+        last = performance.now();
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function stop(){ cancelAnimationFrame(rafId); }
+
+      resize();
+      window.addEventListener('resize', resize, { passive:true });
+      document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); else start(); });
+      prefersReduced.addEventListener('change', ()=>{ if(prefersReduced.matches) { stop(); canvas.style.display='none'; } else start(); });
+      start();
     })();
   </script>
 </body>
