@@ -547,20 +547,12 @@
         return { start, stop, isRunning: () => running };
       }
 
-      // Bind to buttons
+      // Inicializar en todos los botones y mantener activo
       const btns = document.querySelectorAll('.btn');
       btns.forEach(btn => {
-        let ctl = null;
-        let stopTimer = null;
-        function ensure(){ if(!ctl){ ctl = createController(btn); map.set(btn, ctl); } return ctl; }
-        function armStart(){ clearTimeout(stopTimer); ensure().start(); }
-        function armStop(){ clearTimeout(stopTimer); stopTimer = setTimeout(()=>ensure().stop(), 200); }
-        btn.addEventListener('mouseenter', armStart);
-        btn.addEventListener('mouseleave', armStop);
-        btn.addEventListener('focus', armStart);
-        btn.addEventListener('blur', armStop);
-        btn.addEventListener('touchstart', armStart, { passive: true });
-        btn.addEventListener('touchend', armStop, { passive: true });
+        const ctl = createController(btn);
+        map.set(btn, ctl);
+        ctl.start();
       });
     })();
   </script>
